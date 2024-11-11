@@ -1,4 +1,12 @@
 #!/usr/bin/make -f
 
 %:
-	dh $@
+	dh $@ --builddirectory=_build --buildsystem=golang --with=golang
+
+override_dh_auto_build:
+	dh_auto_build --builddirectory=_build --buildsystem=golang
+	pandoc --standalone -o grab.1 debian/grab.1.md
+
+override_dh_auto_clean:
+	dh_auto_clean --builddirectory=_build --buildsystem=golang
+	rm -f grab.1
